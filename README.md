@@ -31,6 +31,31 @@ CODESK
     └── README.md
 ```
 
+## Backend
+
+```
+backend
+    ├── mode_modules
+    ├── .gitignore
+    ├── package-lock.json
+    ├── package.json
+    └── server.js
+```
+
+### Dependencies
+
+- `npm init -y`  
+  Initializes a new Node.js project with default settings.
+
+- `npm install express`  
+  Installs Express.js, a fast, minimal web framework for building the backend server.
+
+- `npm install socket.io`  
+  Adds Socket.IO for real-time, bi-directional communication between client and server.
+
+- `npm install y-socket.io`  
+  Integrates Yjs with Socket.IO to enable real-time collaborative editing features.
+
 ## Frontend
 
 ```
@@ -50,7 +75,7 @@ frontend
     └── vite.config.js
 ```
 
-## Dependencies
+### Dependencies
 
 - `npm create vite@latest`  
   Initializes the project with Vite, a fast frontend build tool and development server.
