@@ -42,6 +42,11 @@ backend
     └── server.js
 ```
 
+### Scripts
+
+- `npm run dev`  
+  Starts the development server with live reloading, allowing you to test your app locally.
+
 ### Dependencies
 
 - `npm init -y`  
@@ -75,6 +80,11 @@ frontend
     └── vite.config.js
 ```
 
+### Scripts
+
+- `npm run dev`  
+  Starts the development server with live reloading, allowing you to test your app locally.
+
 ### Dependencies
 
 - `npm create vite@latest`  
@@ -85,3 +95,12 @@ frontend
 
 - `npm install @monaco-editor/react`  
   Installs the React wrapper for Monaco Editor, providing a powerful code editor UI.
+
+- `npm install y-monaco`  
+  Integrates Yjs with the Monaco Editor to enable real-time collaborative code editing.
+
+- `npm install y-socket.io`  
+  Connects Yjs documents to a Socket.IO server for real-time synchronization between clients.
+
+- `npm install yjs`  
+  The core Yjs library for building real-time collaborative applications.
