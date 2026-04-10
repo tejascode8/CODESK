@@ -104,3 +104,8 @@ frontend
 
 - `npm install yjs`  
   The core Yjs library for building real-time collaborative applications.
+
+- `npm run build`  
+  It converts your project into an optimized production version
+  - copy dist folder from frontend and paste it into backend/public/ folder
+  - setup in backend/server.js -> app.use(express.static("public"));

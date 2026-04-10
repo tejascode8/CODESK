@@ -32,23 +32,18 @@ function App() {
   };
 
   useEffect(() => {
-    console.log(username);
+    // console.log(username);
 
     if (username) {
-      const provider = new SocketIOProvider(
-        "http://localhost:3000",
-        "monaco",
-        ydoc,
-        {
-          autoConnect: true,
-        },
-      );
+      const provider = new SocketIOProvider("/", "monaco", ydoc, {
+        autoConnect: true,
+      });
 
       provider.awareness.setLocalStateField("user", { username });
 
       const states = Array.from(provider.awareness.getStates().values());
 
-      console.log(states);
+      // console.log(states);
 
       setUsers(
         states
