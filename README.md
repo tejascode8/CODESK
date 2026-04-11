@@ -28,8 +28,24 @@ CODESK is a real-time collaborative code editor web application featuring user a
 CODESK
     ├── backend
     ├── frontend
+    ├── dockerfile
+    ├── .dockerignore
     └── README.md
 ```
+
+## Docker
+
+- `Download Docker`
+  https://docs.docker.com/desktop/setup/install/windows-install/
+
+- `docker build . -t codeskserver`
+  Build a Docker image from current folder (.)
+  -t codeskserver → name the image "codeskserver"
+
+- `docker run -p 4000:3000 codeskserver`
+  Run a container from "codeskserver" image
+  -p 4000:3000 → map ports:
+  localhost:4000 → container:3000
 
 ## Backend
 
