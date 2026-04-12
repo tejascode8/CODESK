@@ -33,6 +33,19 @@ CODESK
     └── README.md
 ```
 
+## AWS Amazon
+
+- On Browser -> console.aws.amazon.com
+- Setup and configure aws
+- Getting DNS Name (link address)
+
+`Git Bash (In Vs code)`
+
+- aws ecr get-login-password .......
+- docker buildx build --platform linux/amd64 -t codesk/server .
+- docker tag codesk/server:latest ...............
+- docker push ...................
+
 ## Docker
 
 - `Download Docker`

@@ -1,0 +1,252 @@
+======================================================================
+--------------- https://console.aws.amazon.com/ ----------------------
+======================================================================
+
+(0) => Create account on amazon aws
+
+----------------------------------------------------------------------- 
+
+There is two User :
+                    - Root user (main)
+                    - Working user (for specific task)
+
+
+----------------------------------------------------------------------- 
+Root Account (Tejas) =>
+-----------------------------------------------------------------------
+
+(1) All Service -> IAM -> Users -> Create User
+
+    User name -> codesk
+
+    Check:
+        [✓] provide user access to the AWS management console - optional
+        [✓] auto generated password
+
+    Select policies ->
+        - AmazonECS_FullAccess
+        - AmazonEC2ContainerRegistryFullAccess
+        - AmazonEC2FullAccess
+
+    It will provide ->
+        Console sign-in detail:
+            - URL
+            - Username
+            - Password
+
+    Now we have to login this new working user in different browser
+
+
+(3) IAM -> Users -> codesk -> Security Credentials -> Create Access Key
+
+    Select:
+        Command line
+
+    Description ->
+        codesk project
+
+    Retrieve access key ->
+        Access Key        : xxxxxxxxxxxxxxx
+        Secret Access Key : xxxxxxxxxxxxxxxxxxxxxx
+
+    Open Terminal ->
+
+        CMD:
+            aws configure
+
+        Tip:
+            You can deliver temporary credentials to the AWS CLI
+            using your AWS Console session by running:
+            aws login
+
+        Enter values (cmd/bash):
+            AWS Access Key ID [____]: xxxxxxxxxxxxxxx
+            AWS Secret Access Key [____]: xxxxxxxxxxxxxxxxxxxxxxxxx
+            Default region name [____]: ap-south-1
+            Default output format [____]: json
+
+
+(5) IAM (service) ->
+
+    Role -> Create Role ->
+
+        AWS Service
+
+        Use Case ->
+            Elastic container Service ->
+                Task Execution Role for Elastic Container Service
+
+    Role name ->
+        codesk-role
+
+
+(8) VPC (service) ->
+
+    Create VPC ->
+        VPC and more
+
+
+(9) EC2 (service) ->
+
+    Security group -> Create security group
+
+    Basic details:
+        Security group name -> codesk-security-group
+        Description         -> "from internet to our server"
+        VPC                 -> project-vpc (select)
+
+    Inbound rules:
+        Add Rules
+
+        1. Type   -> all traffic
+           Source -> Anywhere IPv4 0.0.0/0
+
+        2. Type   -> custom tcp
+           Port   -> 3000
+           Source -> Anywhere IPv4 0.0.0/0
+
+    Outbound rules:
+        Type   -> all traffic
+        Source -> Anywhere IPv4 0.0.0/0
+
+
+-----------------------------------------------------------------------
+Working Account (codesk) =>
+-----------------------------------------------------------------------
+
+(2) All services -> Elastic Container Registry ->
+
+    Repo name ->
+        codesk/server
+
+    Create
+
+    Select region ->
+        mumbai
+
+
+(4) All services -> Elastic Container Registry ->
+
+    Push commands for docker/server:
+
+    In VS Code Project (cmd/bash) ->
+
+        - aws ecr get-login-password .......
+        - docker buildx build --platform linux/amd64 -t codesk/server .
+        - docker tag codesk/server:latest ...............
+        - docker push ...................
+
+    Download package ->
+        http://awscli.amazonaws.com/AWSCLIV2.msi
+
+    Run CMD to check status ->
+        aws --version
+
+
+(6) All services -> Elastic Container Service ->
+
+    Select region ->
+        mumbai
+
+    Task Definitions ->
+
+        Task Definition Family ->
+            codesk-Task
+
+        Infrastructure requirement:
+
+            Launch type ->
+                AWS Faragate
+
+            Operating System/Architecture ->
+                linux/X86_64
+
+            Task role & Task Execution ->
+                codesk-role (select)
+
+        Container:
+
+            Name ->
+                codesk-container
+
+            Image URI ->
+                latest image uri from docker (select)
+
+            Container port ->
+                3000
+
+            Port name ->
+                codesk-port
+
+
+(7) Cluster ->
+
+    Create cluster
+
+
+(10) Task Definitions ->
+
+    Deploy ->
+        Create service ->
+
+            Service name ->
+                codesk-task-service
+
+            Networking:
+
+                VPC ->
+                    project vpc (select your vpc)
+
+                    remove all private vpc
+                    only public vpc should be exist
+
+                Security group ->
+                    codesk-security-group (choose)
+
+            Load Balancing:
+
+                -> Application Load Balancer (select)
+
+                Create a new load balancer ->
+
+                    Load balancer name ->
+                        codesk-ALB
+
+                    Create new listener ->
+
+                        PORT     -> 80
+                        Protocol -> HTTP
+
+                    Create new target group ->
+
+                        Target group name ->
+                            codesk-TG
+
+                        Protocol ->
+                            HTTP
+
+                        PORT ->
+                            3000
+
+                        Health check protocol ->
+                            HTTP
+
+                        Health check path ->
+                            /
+
+                Create
+
+
+--------------------------------------------------------------------------
+
+(11) Amazon Elastic Container Service ->
+
+    Clusters ->
+        splendid-bird-lriar9 ->
+
+            Services ->
+                codesk-task-service ->
+
+                    Configuration and networking ->
+
+                        DNS Name (copy to search on google)
